@@ -1,0 +1,47 @@
+@page
+@model HubspotModel
+@{
+    ViewData["Title"] = "Hubspot Integration";
+}
+
+<div>
+    <h2>HubSpot Integration</h2>
+
+    <div class="card" style="padding:20px;">
+        <form method="post">
+            <input type="text" name="firstname" placeholder="First name" />
+            <input type="text" name="lastname" placeholder="Last name" />
+            <input type=" email" name="email" placeholder="Email" />
+            <input type="submit" asp-page-handler="AddUser" class="btn btn-primary" value="Add" />
+        </form>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>ID</th>
+                <th>Op</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (proto.Models.User user in Model.Users)
+            {
+                <tr>
+                    <td>@user.firstname</td>
+                    <td>@user.lastname</td>
+                    <td>@user.email</td>
+                    <td>@user.id</td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="userId" value="@user.id" />
+                            <input asp-page-handler="DeleteUser" value="Del" type="submit" class="btn btn-sm btn-danger">
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
