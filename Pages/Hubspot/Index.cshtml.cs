@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using proto.Models;
+using proto.Client;
 
 namespace proto.Pages
 {
-    public class HubspotModel : PageModel
+    public class HubspotIndexModel : PageModel
     {
 
         static readonly HttpClient client = new HttpClient();
@@ -21,19 +22,8 @@ namespace proto.Pages
 
         public async Task OnGetAsync()
         {
-            var uri = String.Format("https://api.hubapi.com/crm/v3/objects/contacts?limit=10&archived=false&hapikey={0}", apiKey);
-            string response = await client.GetStringAsync(uri);
-            var parsedResponse = JObject.Parse(response);
-            var resultsArray = parsedResponse["results"];
-            foreach (var res in resultsArray)
-            {
-                User user = new User();
-                user.id = (string)res["id"];
-                user.firstname = (string)res["properties"]["firstname"];
-                user.lastname = (string)res["properties"]["lastname"];
-                user.email = (string)res["properties"]["email"];
-                Users.Add(user);
-            }
+            // on GET, populate Users
+            Users = await HubspotClient.ContactsGetAsync();
         }
 
         public async Task<IActionResult> OnPostAddUserAsync(User user)
