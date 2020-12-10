@@ -28,11 +28,7 @@ namespace proto.Pages
 
         public async Task<IActionResult> OnPostAddUserAsync(User user)
         {
-            string jsonUser = JsonConvert.SerializeObject(user).ToString();
-            string jsonBody = "{\"properties\": " + jsonUser + "}";
-            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-            string uri = String.Format("https://api.hubapi.com/crm/v3/objects/contacts?hapikey={0}", apiKey);
-            var response = await client.PostAsync(uri, content);
+            await HubspotClient.ContactsPostAsync(user);
             return RedirectToPage("./Index");
         }
 

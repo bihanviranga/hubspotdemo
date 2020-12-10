@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using proto.Models;
 
@@ -34,6 +36,18 @@ namespace proto.Client
             }
 
             return users;
+        }
+
+        public static async Task ContactsPostAsync(User user)
+        {
+            // make the User object into JSON
+            string jsonUser = JsonConvert.SerializeObject(user).ToString();
+            // prepare request
+            string jsonBody = "{\"properties\": " + jsonUser + "}";
+            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+            // make the POST request
+            string uri = String.Format("https://api.hubapi.com/crm/v3/objects/contacts?hapikey={0}", ApiKey);
+            var response = await client.PostAsync(uri, content);
         }
     }
 }
