@@ -48,6 +48,15 @@ namespace proto.Client
             // make the POST request
             string uri = String.Format("https://api.hubapi.com/crm/v3/objects/contacts?hapikey={0}", ApiKey);
             var response = await client.PostAsync(uri, content);
+            // TODO: check the response's status code to see if the request was successful
+        }
+
+        public static async Task ContactsDeleteAsync(string userId)
+        {
+            // make the DELETE request
+            string uri = String.Format("https://api.hubapi.com/crm/v3/objects/contacts/{0}?hapikey={1}", userId, ApiKey);
+            var response = await client.DeleteAsync(uri);
+            // TODO: check the response's status code to see if the request was successful
         }
     }
 }
