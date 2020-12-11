@@ -12,7 +12,7 @@ namespace proto.Client
     public static class HubspotClient
     {
         static readonly HttpClient client = new HttpClient();
-        public static string ApiKey = "786e6eab-99f9-4aea-baf5-6ea20b7bc449";
+        public static string ApiKey = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX";
 
         public static async Task<ArrayList> ContactsGetAsync()
         {
